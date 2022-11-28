@@ -24,6 +24,22 @@ class Spaceship extends Floater
   myPointDirection = 0;
     }
     
+  public void setXspeed(int x){
+   myXspeed = x; 
+  }
+    
+  public double getXspeed(){
+    return myXspeed;
+  }
+  
+  public void setYspeed(int y){
+   myYspeed = y; 
+  }
+    
+  public double getYspeed(){
+    return myYspeed;
+  }
+    
     public void show ()  //Draws the floater at the current position  
   {          
     
