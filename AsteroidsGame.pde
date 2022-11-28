@@ -27,26 +27,38 @@ public void draw()
 public void keyPressed(){
     if(keyCode == UP){
      ship.accelerate(0.1); 
-     if(ship.myXspeed > 7){
-       ship.myXspeed = 7;
+     if(ship.getXspeed() > 7){
+       ship.setXspeed(7);
      }
-     if(ship.myYspeed > 7){
-       ship.myYspeed = 7;
+     if(ship.getYspeed() > 7){
+       ship.setYspeed(7);
      }
      if(ship.myXspeed < -7){
-       ship.myXspeed = -7;
+       ship.setXspeed(-7);
      }
-     if(ship.myYspeed < -7){
-       ship.myYspeed = -7;
+     if(ship.getYspeed() < -7){
+       ship.setYspeed(-7);
      }
      bothR = true;
-     if( (ship.myXspeed == 7 && ship.myYspeed == 7) || (ship.myXspeed == -7 && ship.myYspeed == 7) || (ship.myXspeed == 7 && ship.myYspeed == -7) || (ship.myXspeed == -7 && ship.myYspeed == -7)){
+     if( (ship.getXspeed() == 7 && ship.getYspeed() == 7) || (ship.getXspeed() == -7 && ship.getYspeed() == 7) || (ship.getXspeed() == 7 && ship.getYspeed() == -7) || (ship.getXspeed() == -7 && ship.getYspeed() == -7)){
       bothR = false; 
      }
      
     }
     if(keyCode == DOWN){
      ship.accelerate(-0.1); 
+     if(ship.getXspeed() > 7){
+       ship.setXspeed(7);
+     }
+     if(ship.getYspeed() > 7){
+       ship.setYspeed(7);
+     }
+     if(ship.myXspeed < -7){
+       ship.setXspeed(-7);
+     }
+     if(ship.getYspeed() < -7){
+       ship.setYspeed(-7);
+     }
     }
     
     else if(keyCode == LEFT){
