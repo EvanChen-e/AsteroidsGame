@@ -11,7 +11,7 @@ double startTimer = 0;
 public void setup() 
 {
   frameRate(60);
-  size(800,800);
+  size(1000,800);
   background(0);
   for(int i = 0; i<stars.length;i++){
   stars[i] = new Star();
