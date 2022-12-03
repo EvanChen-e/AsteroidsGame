@@ -61,7 +61,7 @@ public void draw()
      textAlign(CENTER);
      fill(255);
      text("Lmao skill issue",500,400); //temporary
-     frameRate(0);
+     noLoop();
     }
     }
   
