@@ -1,9 +1,8 @@
 class Stats{
-  private int bc1, bc2, bc3;
-  private int bCounter;
-  private int color1, color2, color3;
-  private int cCounter;
+  private int bc1, bc2, bc3, bCounter;
+  private int color1, color2, color3, cCounter;
   private int hp, overT;
+  private boolean overtime;
   Stats(){
     bc1 = 0;
     bc2 = 0;
@@ -15,6 +14,7 @@ class Stats{
     cCounter = 0;
     hp = 150;
     overT = 150;
+    overtime = false;
   }
   
   public void show(){
@@ -80,10 +80,13 @@ class Stats{
     text("Health",900,650);
     fill(0);
     rect(825,665,150,30);
+    if(overtime == false)
     fill(255,0,0);
+    else
+    fill(#4FDAF5);
     rect(825,665,hp,30);
     //Overtime bar, duration lasts 40 seconds
-    if(statistics.getHp() <= 0){
+    if(overtime == true){
     fill(0);
     text("! Overtime !",900,725);
     fill(0);
@@ -96,9 +99,8 @@ class Stats{
   }
   //setters
   public void setHp(int x){
-      hp = x;  
+      hp = x;
     }
-    
   public void removeHp(int x){
       hp-=x;
     }
@@ -108,6 +110,9 @@ class Stats{
   public void setOver(int x){
    overT = x; 
   }
+  public void setOvertime(boolean x){
+   overtime = x; 
+  }
   //getters
   public int getHp(){
       return hp;
@@ -115,5 +120,9 @@ class Stats{
   public int getOver(){
    return overT;
   }
+  public boolean getOvertime(){
+   return overtime;
+  }
+
   
 }// end
