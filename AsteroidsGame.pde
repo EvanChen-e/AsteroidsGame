@@ -57,7 +57,6 @@ public void draw()
   }
   if(statistics.getOvertime() == true){
    timeOver++;
-   System.out.println(statistics.getOver());
   }
   //Sets duration of overtime
     if(timeOver == 1){
@@ -146,9 +145,9 @@ public void keyPressed(){
   }
   
   void mouseClicked(){
-   System.out.print(mouseX); 
-   System.out.print(" , ");
-   System.out.println(mouseY);
+   //System.out.print(mouseX); 
+   //System.out.print(" , ");
+   //System.out.println(mouseY);
   }
   
   
