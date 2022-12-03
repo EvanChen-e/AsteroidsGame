@@ -39,7 +39,40 @@ class Spaceship extends Floater
   public double getYspeed(){
     return myYspeed;
   }
+  
+  public double getCenterX(){
+    return myCenterX;
+  }
+  public double getCenterY(){
+    return myCenterY;
+  }
     
+    public void move ()   //move the floater in the current direction of travel
+  {      
+    //change the x and y coordinates by myXspeed and myYspeed       
+    myCenterX += myXspeed;    
+    myCenterY += myYspeed;     
+
+    //wrap around screen    
+    if(myCenterX >800)
+    {     
+      myCenterX = 0;    
+    }    
+    else if (myCenterX<0)
+    {     
+      myCenterX = 800;    
+    }    
+    if(myCenterY >800)
+    {    
+      myCenterY = 0;    
+    } 
+    
+    else if (myCenterY < 0)
+    {     
+      myCenterY = 800;    
+    }   
+  }
+  
     public void show ()  //Draws the floater at the current position  
   {          
     
