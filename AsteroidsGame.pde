@@ -8,6 +8,8 @@ boolean rightR = false;
 boolean bothR = false;
 int timeOver = 0;
 double startTimer = 0;
+int overtime = 0;
+boolean endgame = false;
 public void setup() 
 {
   frameRate(60);
@@ -40,36 +42,56 @@ public void draw()
    float collision = dist((float)ship.getCenterX(),(float)ship.getCenterY(),(float)check.getCenterX(),(float)check.getCenterY());
    if(collision < 50){
     statistics.removeHp((int)(Math.random()*7+3));
+    if(statistics.getOvertime() == true){
+      statistics.removeHp(10);
+    }
     asteroid.remove(i);
     Asteroid asteroids = new Asteroid((int)(Math.random()*800),-5,(int)(Math.random()*2+1));
     asteroid.add(asteroids);
    }
   }
-  //Checks health and overtime bar
-  if(statistics.getHp() <= 0){
-    statistics.setHp(0);
-    if(timeOver == 0){
+  //Checks first health bar before overtime
+  if(statistics.getHp() <= 0 && (statistics.getOvertime() == false)){
+    statistics.setHp(150);
+    statistics.setOvertime(true);
+  }
+  if(statistics.getOvertime() == true){
+   timeOver++;
+   System.out.println(statistics.getOver());
+  }
+  //Sets duration of overtime
+    if(timeOver == 1){
     statistics.removeOver(1);
     }
-    timeOver++;
     if(timeOver > 15){
      timeOver = 0;
     }
+    //End game
+    if(endgame == true){
+      noLoop();
+    }
+    //if overtime has ended end game
     if(statistics.getOver() <= 0){
-     statistics.setOver(0);
      textSize(30);
      textAlign(CENTER);
      fill(255);
      text("Lmao skill issue",500,400); //temporary
      noLoop();
     }
+    //if overtime and hp falls below 0 for the second time
+    if(statistics.getHp() <= 0 && statistics.getOvertime() == true){
+     statistics.setHp(0);
+     textSize(30);
+     textAlign(CENTER);
+     fill(255);
+     text("Lmao skill issue",500,400); //temporary
+     endgame = true;
     }
-  
 }
 
 public void keyPressed(){
     if(keyCode == UP){
-     ship.accelerate(0.1); 
+     ship.accelerate(0.2); 
      if(ship.getXspeed() > 7){
        ship.setXspeed(7);
      }
@@ -89,7 +111,7 @@ public void keyPressed(){
      
     }
     if(keyCode == DOWN){
-     ship.accelerate(-0.1); 
+     ship.accelerate(-0.2); 
      if(ship.getXspeed() > 7){
        ship.setXspeed(7);
      }
@@ -141,4 +163,3 @@ public void keyReleased(){
     rightR = false;
   }
 }
-
