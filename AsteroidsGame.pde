@@ -48,7 +48,9 @@ public void draw()
   }
   ship.show();
   ship.move();
-  //Shield functions
+  statistics.show();
+  
+  //Shield functions, draw this last because of rotation issues
   if(shieldOnScreen == false){
   shield.randomSpawn();
   } else if (shieldOnScreen == true){
@@ -57,14 +59,12 @@ public void draw()
   }
   if(shieldOn == true){
   shield.show(ship.getCenterX(),ship.getCenterY());
-  shield.createCount();
+  //shield.createCount();
   shield.checkAsteroidCollision();
   if(shield.getsCount() <= 0){
    shieldOn = false; 
   }
   }
-  
-  statistics.show();
   //Asteroid and Spaceship collision
   for(int i = 0;i<asteroid.size(); i++){
    Asteroid check = asteroid.get(i); 
