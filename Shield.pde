@@ -13,7 +13,7 @@ class Shield{
   }
   public void show(double x, double y){
   fill(#52F7C4);
-  push();
+  //push();
     translate((float)x, (float)y);
     rotate(angle);
     angle+=0.03;
@@ -21,7 +21,7 @@ class Shield{
     rotate(2);
     triangle(-20,70,20,70,0,90);
   }
-  pop();
+  //pop();
   }
   
   public void createCount(){
@@ -53,14 +53,14 @@ class Shield{
   }
   public void spawnMove(){
     fill(#52F7C4);
-    push();
+    //push();
     translate((float)Sx, (float)Sy);
     noStroke();
     for(int i = 0; i<22; i++){
     rotate(2);
     triangle(-20,40,20,40,0,60);
     }
-    pop();
+    //pop();
     Sy++;
     float touch = dist(shield.getSx(),shield.getSy(),(float)ship.getCenterX(),(float)ship.getCenterY());
     if(touch < 75){
