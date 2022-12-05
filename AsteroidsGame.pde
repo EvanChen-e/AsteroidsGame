@@ -84,7 +84,7 @@ public void draw()
   if(statistics.getHp() <= 0 && (statistics.getOvertime() == false)){
     statistics.setHp(150);
     statistics.setOvertime(true);
-    //shieldOn = true;
+    shieldOn = true;
     shield.setsCount(30);
   }
   if(statistics.getOvertime() == true){
