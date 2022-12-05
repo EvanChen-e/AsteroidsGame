@@ -2,14 +2,27 @@
 Star[] stars = new Star[500];
 Spaceship ship = new Spaceship();
 ArrayList <Asteroid> asteroid = new ArrayList <Asteroid>();
+Shield shield = new Shield();
 Stats statistics = new Stats();
+
+//Move animation
 boolean leftR = false;
 boolean rightR = false;
 boolean bothR = false;
+
+//Overtime
 int timeOver = 0;
 double startTimer = 0;
 int overtime = 0;
+
+//Shield
+boolean shieldOn = false;
+boolean shieldOnScreen = false;
+
+//Ending the game
 boolean endgame = false;
+
+
 public void setup() 
 {
   frameRate(60);
@@ -18,7 +31,7 @@ public void setup()
   for(int i = 0; i<stars.length;i++){
   stars[i] = new Star();
   }
-  for(int i = 0; i<20;i++){
+  for(int i = 0; i<15;i++){
    Asteroid asteroids = new Asteroid();
    asteroid.add(asteroids);
   }
@@ -35,8 +48,24 @@ public void draw()
   }
   ship.show();
   ship.move();
-  statistics.show();
+  //Shield functions
+  if(shieldOnScreen == false){
+  shield.randomSpawn();
+  } else if (shieldOnScreen == true){
+   shield.spawnMove();
+   
+  }
+  if(shieldOn == true){
+  shield.show(ship.getCenterX(),ship.getCenterY());
+  shield.createCount();
+  shield.checkAsteroidCollision();
+  if(shield.getsCount() <= 0){
+   shieldOn = false; 
+  }
+  }
   
+  statistics.show();
+  //Asteroid and Spaceship collision
   for(int i = 0;i<asteroid.size(); i++){
    Asteroid check = asteroid.get(i); 
    float collision = dist((float)ship.getCenterX(),(float)ship.getCenterY(),(float)check.getCenterX(),(float)check.getCenterY());
@@ -50,14 +79,18 @@ public void draw()
     asteroid.add(asteroids);
    }
   }
+  
   //Checks first health bar before overtime
   if(statistics.getHp() <= 0 && (statistics.getOvertime() == false)){
     statistics.setHp(150);
     statistics.setOvertime(true);
+    shieldOn = true;
+    shield.setsCount(30);
   }
   if(statistics.getOvertime() == true){
    timeOver++;
   }
+  
   //Sets duration of overtime
     if(timeOver == 1){
     statistics.removeOver(1);
