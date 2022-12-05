@@ -81,12 +81,12 @@ public void draw()
   }
   
   //Checks first health bar before overtime
-  //if(statistics.getHp() <= 0 && (statistics.getOvertime() == false)){
-    //statistics.setHp(150);
-    //statistics.setOvertime(true);
+  if(statistics.getHp() <= 0 && (statistics.getOvertime() == false)){
+    statistics.setHp(150);
+    statistics.setOvertime(true);
     //shieldOn = true;
-    //shield.setsCount(30);
-  //}
+    shield.setsCount(30);
+  }
   if(statistics.getOvertime() == true){
    timeOver++;
   }
