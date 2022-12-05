@@ -23,7 +23,7 @@ class Stats{
     //time
     textAlign(LEFT);
     fill(255);
-    text("Time elapsed: " + (showTime/60),20,20);
+    text("Time elapsed: " + (int)(showTime/60),20,20);
     showTime++;
     if(statistics.getHp() > 0 && overtime == false){
     fill(bc1,bc2,bc3);
