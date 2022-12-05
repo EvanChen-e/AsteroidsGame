@@ -21,6 +21,8 @@ class Shield{
     rotate(2);
     triangle(-20,70,20,70,0,90);
   }
+  rotate(-angle);
+  translate(-(float)x,-(float)y);
   //pop();
   }
   
@@ -60,6 +62,8 @@ class Shield{
     rotate(2);
     triangle(-20,40,20,40,0,60);
     }
+    rotate(-44);
+    translate(-(float)Sx,-(float)Sy);
     //pop();
     Sy++;
     float touch = dist(shield.getSx(),shield.getSy(),(float)ship.getCenterX(),(float)ship.getCenterY());
