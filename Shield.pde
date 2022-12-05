@@ -44,7 +44,7 @@ class Shield{
   }
   public void randomSpawn(){
     int random = (int)(Math.random()*increaseChance);
-    if(random == randomSpawning && increaseChance <= 1800){
+    if(random == randomSpawning && increaseChance <= 900){
       shieldOnScreen = true;
       increaseChance = 2700;
     }
