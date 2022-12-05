@@ -3,6 +3,7 @@ class Stats{
   private int color1, color2, color3, cCounter;
   private int hp, overT;
   private boolean overtime;
+  private int showTime;
   Stats(){
     bc1 = 0;
     bc2 = 0;
@@ -15,10 +16,16 @@ class Stats{
     hp = 150;
     overT = 150;
     overtime = false;
+    showTime = 0;
   }
   
   public void show(){
-    if(statistics.getHp() > 0){
+    //time
+    textAlign(LEFT);
+    fill(255);
+    text("Time elapsed: " + (showTime/60),20,20);
+    showTime++;
+    if(statistics.getHp() > 0 && overtime == false){
     fill(bc1,bc2,bc3);
     } else {
     fill(color1, color2, color3);
@@ -94,7 +101,29 @@ class Stats{
     fill(color1,color2,color3);
     rect(825,750,overT,30);
     }
-    
+    //Powerup settings
+    fill(0);
+    textSize(30);
+    text("Powerups", 900,300);
+    textSize(20);
+    text("Shield", 900,350);
+    text("Adrenaline", 900,450);
+    text("Annihilation", 900, 550);
+    fill(0);
+    rect(825,375,150,30);
+    if(shieldOn == false){
+     fill(255);
+     text("INACTIVE",900,400);
+    } else {
+     fill(255);
+     shield.createCount();
+    }
+    fill(0);
+    rect(825,475,150,30);
+    rect(825,575,150,30);
+    fill(255);
+    text("INACTIVE",900,600);
+    //Boss (coming soon)
     
   }
   //setters
