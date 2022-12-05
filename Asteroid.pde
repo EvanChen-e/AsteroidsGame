@@ -2,9 +2,9 @@ class Asteroid extends Floater{
   private double asteroidRotation;
   Asteroid(){
    asteroidRotation = (double)(Math.random()*5-3);
-   corners = 4;
-   xCorners = new int[]{10,10,-10,-10};
-   yCorners = new int[]{10,-10,-10,10};
+   corners = 12;
+   xCorners = new int[]{1,-2 , -8, -6, -9, -7, -1, 4, 9, 5, 8, 7};
+   yCorners = new int[]{-9, -12, -7, -3, 2, 8, 7, 9, 1, -2,-5, -13};
   myColor = 50; 
   myCenterX = (float)(Math.random()*800);
   myCenterY = (float)(Math.random()*800);
@@ -15,9 +15,9 @@ class Asteroid extends Floater{
   
   Asteroid(float x, float y, int ySpeed){
    asteroidRotation = (double)(Math.random()*5-3);
-   corners = 4;
-   xCorners = new int[]{10,10,-10,-10};
-   yCorners = new int[]{10,-10,-10,10};
+   corners = 12;
+   xCorners = new int[]{1,-2 , -8, -6, -9, -7, -1, 4, 9, 5, 8, 7};
+   yCorners = new int[]{-9, -12, -7, -3, 2, 8, 7, 9, 1, -2,-5, -13};
   myColor = 50; 
   myCenterX = x;
   myCenterY = y;
@@ -85,7 +85,7 @@ class Asteroid extends Floater{
     //rotation of the asteroid
     while(asteroidRotation == 0){
      asteroidRotation = (double)(Math.random()*5-3); 
-    }
+    }  
     myPointDirection+=asteroidRotation;
     
 
