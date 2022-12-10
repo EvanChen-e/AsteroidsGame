@@ -1,6 +1,7 @@
 class Spaceship extends Floater  
 {   
   private int fireCount;
+  private int loseHpAsteroids;
   Spaceship(){
   fireCount = 11;
   corners = 35;
@@ -22,6 +23,7 @@ class Spaceship extends Floater
   myXspeed = 0;
   myYspeed = 0;
   myPointDirection = 0;
+  loseHpAsteroids = 0;
     }
     
   public void setXspeed(int x){
@@ -45,6 +47,13 @@ class Spaceship extends Floater
   }
   public double getCenterY(){
     return myCenterY;
+  }
+  
+  public double getPointDirection(){
+   return myPointDirection; 
+  }
+  public int getloseHpAsteroids(){
+   return loseHpAsteroids;
   }
     
     public void move ()   //move the floater in the current direction of travel
@@ -138,5 +147,9 @@ class Spaceship extends Floater
     myCenterX = (int)(Math.random()*700+50);
     myCenterY = (int)(Math.random()*700+50);
     myPointDirection = (int)(Math.random()*360);
+  }
+  
+  public void setRandomLoseHpAsteroids(){
+   loseHpAsteroids = (int)(Math.random()*7+3);
   }
 }
