@@ -4,6 +4,8 @@ class Stats{
   private int hp, overT;
   private boolean overtime;
   private int showTime;
+  private int score;
+  private int showcount;
   Stats(){
     bc1 = 0;
     bc2 = 0;
@@ -16,21 +18,39 @@ class Stats{
     hp = 150;
     overT = 150;
     overtime = false;
-    showTime = 0;
+    showTime = -1;
+    score = -1;
+    showcount = 0;
   }
   
   public void show(){
+    //score
+    textAlign(RIGHT);
+    fill(255);
+    textSize(20);
+    text("Score: " + score,780,20);
     //time
     textAlign(LEFT);
     fill(255);
-    text("Time elapsed: " + (int)(showTime/60),20,20);
+    textSize(20);
+    text("Time elapsed: " + showTime,20,20);
+    if(showcount == 0){
     showTime++;
+    }
+    showcount++;
+    if(showcount > 60){
+     showcount = 0; 
+    }
     if(statistics.getHp() > 0 && overtime == false){
     fill(bc1,bc2,bc3);
     } else {
     fill(color1, color2, color3);
     }
     rect(800,0,200,800);
+    
+    if(hp > 150){
+     hp = 150; 
+    }
     
     if(bCounter == 0){
      bc2++;
@@ -121,10 +141,29 @@ class Stats{
     fill(0);
     rect(825,475,150,30);
     rect(825,575,150,30);
-    fill(255);
-    text("INACTIVE",900,600);
-    //Boss (coming soon)
     
+    //Boss 
+    if(firstBoss == false){ //turn it into true later
+    strokeWeight(10);
+    stroke(0);
+    line(820,20,820,80);
+    line(820,80,880,80);
+    line(880,80,880,20);
+    line(880,20,820,20);
+    fill(#B61CFA);
+    rect(820,20,60,60);
+    strokeWeight(1);
+    stroke(255);
+    fill(0);
+    textSize(30);
+    text("._.",850,55);
+    textSize(15);
+    text("Boss: The Blob",940,40);
+    text("Version: " + blob.getVersion(), 940,70);
+    textSize(20);
+    textAlign(LEFT);
+    text("HP: " + blob.getHp(), 820,110);
+    }
   }
   //setters
   public void setHp(int x){
@@ -142,6 +181,9 @@ class Stats{
   public void setOvertime(boolean x){
    overtime = x; 
   }
+  public void addScore(int x){
+   score+=x; 
+  }
   //getters
   public int getHp(){
       return hp;
@@ -152,6 +194,5 @@ class Stats{
   public boolean getOvertime(){
    return overtime;
   }
-
   
 }// end
