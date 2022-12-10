@@ -71,7 +71,9 @@ class Annihilation{
   
   public void gainDed(double x){
     barDed+=(0.75*x);
-    System.out.println(barDed);
+  }
+  public void setDed(double x){
+    barDed=x;
   }
   
   public double getBarDed(){
