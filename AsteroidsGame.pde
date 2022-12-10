@@ -254,6 +254,7 @@ public void draw()
     shield.setsCount(30);
     adrenaline.setA(150);
     adrenalineOn = true;
+    annihilation.setDed(150);
   }
   if(statistics.getOvertime() == true){
    timeOver++;
@@ -336,9 +337,9 @@ public void keyPressed(){
   }
   
   void mouseClicked(){
-   System.out.print(mouseX); 
-   System.out.print(" , ");
-   System.out.println(mouseY);
+   //System.out.print(mouseX); 
+   //System.out.print(" , ");
+   //System.out.println(mouseY);
   }
   
   
