@@ -221,9 +221,9 @@ public void draw()
    float collision = dist((float)ship.getCenterX(),(float)ship.getCenterY(),(float)check.getCenterX(),(float)check.getCenterY());
    if(collision < 50){
     if(annihilationOn == false){
-    ship.setRandomLoseHpAsteroids();
-    statistics.removeHp(ship.getloseHpAsteroids());
-    annihilation.gainDed(ship.getloseHpAsteroids());
+    //ship.setRandomLoseHpAsteroids();
+    //statistics.removeHp(ship.getloseHpAsteroids());
+    //annihilation.gainDed(ship.getloseHpAsteroids());
     }
     asteroid.remove(i);
     Asteroid asteroids = new Asteroid((int)(Math.random()*800),-5,(int)(Math.random()*2+1));
