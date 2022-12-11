@@ -8,6 +8,9 @@ Stats statistics = new Stats();
 Adrenaline adrenaline = new Adrenaline();
 Annihilation annihilation = new Annihilation();
 Boss blob = new Boss();
+ArrayList <BossATK1> atk1 = new ArrayList <BossATK1>();
+
+//Honestly anything initialization declaration below here is probably doable in classes but lazy
 
 //Move animation + smoother movement
 boolean leftR = false;
@@ -19,6 +22,7 @@ boolean rightPressed = false;
 boolean upPressed = false;
 boolean downPressed = false;
 boolean zPressed = false;
+int qPress = 0;
 
 
 //Bullet
@@ -41,8 +45,13 @@ int timeShootAnni = 0;
 boolean annihilationOn = false;
 
 //Boss
-boolean firstBoss = false;
 boolean bossOn = false;
+boolean bossFirst = false;
+//Boss attack
+boolean bossFirstA = false;
+boolean bossSecondA = false;
+int randomAtk = 0;
+int timerZ = 0;
 
 //Score
 int timeElapse = 0;
@@ -78,6 +87,9 @@ public void draw()
     shooting.show();
     shooting.move();
   }
+  for(BossATK1 Batk1 : atk1){
+     Batk1.show();
+  }
   if(annihilationOn == true){
    annihilation.drawBubble(); 
   }
@@ -88,7 +100,41 @@ public void draw()
   statistics.show();
   adrenaline.show();
   annihilation.show();
+  
+  //shows the boss attacks
+  if(statistics.getattackCd() == 0 && bossFirstA == false && bossSecondA == false){
+   //randomAtk = (int)(Math.random()*2+1);
+   randomAtk = (int)(1);
+   if(randomAtk == 1){
+     bossFirstA = true;
+   }
+   if(randomAtk == 2){
+     bossSecondA = true;
+   }
+  }
+  if(bossFirstA == true){
+    atk1.add(new BossATK1());
+    
+  } else {
+   for(int i = 0; i<atk1.size(); i++){
+   atk1.remove(i);
+   }
+  }
+  
+  if(bossSecondA == true){
+  
+  }
+  //checks if boss stats whatever is shown, checks if boss hp falls below 0
+  if(bossOn == true){
   blob.show();
+  if(blob.getHp() <= 0){
+      statistics.addScore(10000*(blob.getVersion()));
+      blob.setHp(2000+250*(blob.getVersion()));
+      blob.increaseVersion(1);
+      statistics.setattackCd(16);
+      bossOn = false;
+    }
+  }
   
   //Calls function that determines when boss spawns
   if(bossOn == false){
@@ -170,7 +216,7 @@ public void draw()
        timeShoot = 0; 
       }
       } else {
-       if(timeShoot > 2){
+       if(timeShoot > 1){
         timeShoot = 0; 
        }
       } 
@@ -192,8 +238,8 @@ public void draw()
   }
   if(shieldOn == true){
   shield.show(ship.getCenterX(),ship.getCenterY());
-  //shield.createCount();
   shield.checkAsteroidCollision();
+  shield.checkBulletCollision();
   if(shield.getsCount() <= 0){
    shieldOn = false; 
   }
@@ -230,7 +276,19 @@ public void draw()
     asteroid.add(asteroids);
     }
   }
+  //Check boss bullets and ship
+  for(int i = 0; i<atk1.size();i++){
+   BossATK1 check4 = atk1.get(i);
+   float BBship = dist((float)check4.getCenterX(),(float)check4.getCenterY(),(float)ship.getCenterX(),(float)ship.getCenterY());
+   if(BBship < 60){
+     if(annihilationOn == false){
+     statistics.removeHp(5);
+     }
+     atk1.remove(i);
+   }
+  }
   
+  if(bossOn == true){
   //Check bullet and boss
   for(int i = 0; i<shoot.size();i++){
     Bullet check3 = shoot.get(i);
@@ -245,7 +303,13 @@ public void draw()
      }
     }
   }
-  
+  float blobShip = dist((float)blob.getCenterX(),(float)blob.getCenterY(),(float)ship.getCenterX(),(float)ship.getCenterY());
+  if(blobShip < 200){
+      ship.setCenterX(400);
+      ship.setCenterY(400);
+    
+    }
+  }
   //Checks first health bar before overtime
   if(statistics.getHp() <= 0 && (statistics.getOvertime() == false)){
     statistics.setHp(75);
@@ -329,17 +393,29 @@ public void keyPressed(){
      annihilationOn = true; 
     }
     
-    if(key == ' '){
+     if(key == 'q'){
+      if(qPress %2 == 0){
       zPressed = true;
-      
+      }
+      if(qPress %2 == 1){
+      zPressed = false;
+      }
+      qPress++;
+    }
+ 
+    if(key == 'e'){
+      statistics.shortenBossCountdown(5);
+    }
+    if(key == 'r'){
+        blob.shortenHp(10);
     }
  
   }
   
   void mouseClicked(){
-   //System.out.print(mouseX); 
-   //System.out.print(" , ");
-   //System.out.println(mouseY);
+   System.out.print(mouseX); 
+   System.out.print(" , ");
+   System.out.println(mouseY);
   }
   
   
@@ -361,7 +437,4 @@ public void keyReleased(){
     rightR = false;
   }
   
-  if(key == ' '){
-   zPressed = false; 
-  }
 }
