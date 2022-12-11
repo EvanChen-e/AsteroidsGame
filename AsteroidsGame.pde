@@ -52,6 +52,8 @@ boolean bossFirstA = false;
 boolean bossSecondA = false;
 int randomAtk = 0;
 int timerZ = 0;
+int timerLong = 0;
+int timerWait = 0;
 
 //Score
 int timeElapse = 0;
@@ -113,12 +115,29 @@ public void draw()
    }
   }
   if(bossFirstA == true){
+    if(timerZ == 0 && timerLong <= (20 + 8*blob.getVersion())){
     atk1.add(new BossATK1());
-    
+    timerLong++;
+    }
+    timerZ++;
+    if(timerZ == 15){
+      timerZ = 0;
+    }
+    if(timerLong > (20 + 8*blob.getVersion())){ //change number based on version
+    timerWait++;
+    if(timerWait > 400){
+    bossFirstA = false;
+    statistics.setattackCd(16);
+    timerLong = 0;
+    timerZ = 0;
+    timerWait = 0;
+    }
+    }
   } else {
    for(int i = 0; i<atk1.size(); i++){
    atk1.remove(i);
    }
+   timerZ = 0;
   }
   
   if(bossSecondA == true){
@@ -281,8 +300,10 @@ public void draw()
    BossATK1 check4 = atk1.get(i);
    float BBship = dist((float)check4.getCenterX(),(float)check4.getCenterY(),(float)ship.getCenterX(),(float)ship.getCenterY());
    if(BBship < 60){
+     
      if(annihilationOn == false){
      statistics.removeHp(5);
+     annihilation.gainDed(5);
      }
      atk1.remove(i);
    }
@@ -401,6 +422,13 @@ public void keyPressed(){
       zPressed = false;
       }
       qPress++;
+    }
+ 
+    if(key == 'e'){
+      statistics.shortenBossCountdown(5);
+    }
+    if(key == 'r'){
+        blob.shortenHp(10);
     }
  
   }
