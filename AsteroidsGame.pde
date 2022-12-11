@@ -403,13 +403,6 @@ public void keyPressed(){
       qPress++;
     }
  
-    if(key == 'e'){
-      statistics.shortenBossCountdown(5);
-    }
-    if(key == 'r'){
-        blob.shortenHp(10);
-    }
- 
   }
   
   void mouseClicked(){
