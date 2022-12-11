@@ -1,5 +1,5 @@
 class Annihilation{
-  private double barDed = 150;
+  private double barDed = 0;
   private int timer = 0;
   private int moveFunny = 0;
   Annihilation(){
