@@ -6,6 +6,8 @@ class Stats{
   private int showTime;
   private int score;
   private int showcount;
+  private int bossCountdown, bossCountdowncount;
+  private int attackCd, attackCdcount;
   Stats(){
     bc1 = 0;
     bc2 = 0;
@@ -21,6 +23,9 @@ class Stats{
     showTime = -1;
     score = -1;
     showcount = 0;
+    bossCountdown = 61;
+    bossCountdowncount = 0;
+    attackCd = 16;
   }
   
   public void show(){
@@ -143,7 +148,7 @@ class Stats{
     rect(825,575,150,30);
     
     //Boss 
-    if(firstBoss == false){ //turn it into true later
+    if(bossFirst == true){
     strokeWeight(10);
     stroke(0);
     line(820,20,820,80);
@@ -162,7 +167,60 @@ class Stats{
     text("Version: " + blob.getVersion(), 940,70);
     textSize(20);
     textAlign(LEFT);
+    if(bossOn == true){
     text("HP: " + blob.getHp(), 820,110);
+    } else {
+    text("HP: DESTROYED", 820,110);
+    }
+    } else {
+    text("Boss: ???",940,40);
+    }
+    
+    //Boss countdown
+    if(bossOn == false){
+    textAlign(LEFT);
+    textSize(20);
+    text("Boss Countdown: ",820,150);
+    textAlign(CENTER);
+    text(bossCountdown,900,170);
+    if(bossCountdowncount == 0){
+     bossCountdown--; 
+    }
+    bossCountdowncount++;
+    if(bossCountdowncount == 60){
+     bossCountdowncount = 0; 
+    }
+    if(bossCountdown == 0){
+      bossCountdown = 90;
+      bossOn = true;
+      bossFirst = true;
+      attackCdcount = 0;
+    }
+    } else {
+      textSize(20);
+      textAlign(LEFT);
+      text("Boss Countdown:",820,150);
+      text("Attack Cooldown: ", 820, 200);
+      textAlign(CENTER);
+      text("SPAWNED",900,170);
+      //checking attack cooldown/activating attacks
+      if(attackCd > 0){
+      text(attackCd,900,220);
+      
+      if(attackCdcount == 0){
+      attackCd--;
+      }
+      attackCdcount++;
+      if(attackCdcount == 60){
+       attackCdcount = 0; 
+      }
+      if(attackCd == 0){
+        attackCdcount = 0;
+      }
+      } else {
+        textAlign(CENTER);
+        text("ATTACKING",900,220);
+      }
     }
   }
   //setters
@@ -184,6 +242,12 @@ class Stats{
   public void addScore(int x){
    score+=x; 
   }
+  public void shortenBossCountdown(int x){
+   bossCountdown=x; 
+  }
+  public void setattackCd(int x){
+   attackCd = x; 
+  }
   //getters
   public int getHp(){
       return hp;
@@ -193,6 +257,9 @@ class Stats{
   }
   public boolean getOvertime(){
    return overtime;
+  }
+  public int getattackCd(){
+   return attackCd; 
   }
   
 }// end
