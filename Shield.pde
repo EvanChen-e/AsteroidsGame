@@ -9,7 +9,7 @@ class Shield{
     randomSpawning = 0;
     Sx = (int)(Math.random()*750+25);
     Sy = -10;
-    increaseChance = 2700;
+    increaseChance = 3600;
   }
   public void show(double x, double y){
   fill(#52F7C4);
@@ -44,11 +44,23 @@ class Shield{
     }
    }
   }
+  
+  public void checkBulletCollision(){
+  for(int i = 0;i<atk1.size(); i++){
+   BossATK1 check2 = atk1.get(i); 
+   float collision = dist((float)ship.getCenterX(),(float)ship.getCenterY(),(float)check2.getCenterX(),(float)check2.getCenterY());
+   if(collision < 100){
+    removesCount(2);
+    atk1.remove(i);
+    }
+   }
+  }
+  
   public void randomSpawn(){
     int random = (int)(Math.random()*increaseChance);
     if(random == randomSpawning && increaseChance <= 900){
       shieldOnScreen = true;
-      increaseChance = 2700;
+      increaseChance = 3600;
     }
     increaseChance--;
     //System.out.println(increaseChance);
