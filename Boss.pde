@@ -24,6 +24,15 @@ class Boss{
  public void removeHp(int x){
   hp-=x; 
  }
+ public void shortenHp(int x){
+   hp=x; 
+ }
+  public void setHp(int x){
+  hp=x;
+ }
+  public void increaseVersion(int x){
+  version+=x;
+ }
  
  public int getVersion(){
   return version; 
