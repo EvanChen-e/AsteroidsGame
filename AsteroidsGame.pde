@@ -123,7 +123,7 @@ public void draw()
    }
   }
   if(bossFirstA == true){
-    if(timerZ == 0 && timerLong <= (20 + 10*blob.getVersion())){
+    if(timerZ == 0 && timerLong <= (20 + 15*blob.getVersion())){
     atk1.add(new BossATK1());
     timerLong++;
     }
@@ -131,7 +131,7 @@ public void draw()
     if(timerZ == 10){
       timerZ = 0;
     }
-    if(timerLong > (20 + 10*blob.getVersion())){ //change number based on version
+    if(timerLong > (20 + 15*blob.getVersion())){ //change number based on version
     timerWait++;
     if(timerWait > 400){
     bossFirstA = false;
@@ -154,7 +154,7 @@ public void draw()
   if(bossSecondA == true){
   if(secondTempTimer < 260){
   if(secondTempTimer == 1){
-  for(int i = 0; i<(9+3*blob.getVersion()); i++){
+  for(int i = 0; i<(10+4*blob.getVersion()); i++){
   atk2.add(new BossATK2((int)(Math.random()*2),(int)(Math.random()*2)));
   }
   }
