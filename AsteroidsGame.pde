@@ -9,6 +9,7 @@ Adrenaline adrenaline = new Adrenaline();
 Annihilation annihilation = new Annihilation();
 Boss blob = new Boss();
 ArrayList <BossATK1> atk1 = new ArrayList <BossATK1>();
+ArrayList <BossATK2> atk2 = new ArrayList <BossATK2>();
 
 //Honestly anything initialization declaration below here is probably doable in classes but lazy
 
@@ -54,6 +55,8 @@ int randomAtk = 0;
 int timerZ = 0;
 int timerLong = 0;
 int timerWait = 0;
+int secondTempTimer = 0;
+boolean moveOn = false;
 
 //Score
 int timeElapse = 0;
@@ -92,6 +95,12 @@ public void draw()
   for(BossATK1 Batk1 : atk1){
      Batk1.show();
   }
+  for(BossATK2 Batk2 : atk2){
+     Batk2.show();
+     if(moveOn == true){
+      Batk2.move(); 
+     }
+  }
   if(annihilationOn == true){
    annihilation.drawBubble(); 
   }
@@ -105,8 +114,7 @@ public void draw()
   
   //shows the boss attacks
   if(statistics.getattackCd() == 0 && bossFirstA == false && bossSecondA == false){
-   //randomAtk = (int)(Math.random()*2+1);
-   randomAtk = (int)(1);
+   randomAtk = (int)(Math.random()*2+1);
    if(randomAtk == 1){
      bossFirstA = true;
    }
@@ -115,7 +123,7 @@ public void draw()
    }
   }
   if(bossFirstA == true){
-    if(timerZ == 0 && timerLong <= (20 + 8*blob.getVersion())){
+    if(timerZ == 0 && timerLong <= (20 + 10*blob.getVersion())){
     atk1.add(new BossATK1());
     timerLong++;
     }
@@ -123,11 +131,11 @@ public void draw()
     if(timerZ == 15){
       timerZ = 0;
     }
-    if(timerLong > (20 + 8*blob.getVersion())){ //change number based on version
+    if(timerLong > (20 + 10*blob.getVersion())){ //change number based on version
     timerWait++;
     if(timerWait > 400){
     bossFirstA = false;
-    statistics.setattackCd(16);
+    statistics.setattackCd(11);
     timerLong = 0;
     timerZ = 0;
     timerWait = 0;
@@ -140,8 +148,31 @@ public void draw()
    timerZ = 0;
   }
   
-  if(bossSecondA == true){
   
+  
+  
+  if(bossSecondA == true){
+  if(secondTempTimer < 260){
+  if(secondTempTimer == 1){
+  for(int i = 0; i<(9+3*blob.getVersion()); i++){
+  atk2.add(new BossATK2((int)(Math.random()*2),(int)(Math.random()*2)));
+  }
+  }
+  secondTempTimer++;
+  if(secondTempTimer > 180){
+  moveOn = true;
+  }
+  } else {
+   secondTempTimer = 0;
+   bossSecondA = false;
+   statistics.setattackCd(11);
+   moveOn = false;
+  }
+  } else {
+  for(int i = 0; i<atk2.size(); i++){
+   atk2.remove(i);
+   } 
+    
   }
   //checks if boss stats whatever is shown, checks if boss hp falls below 0
   if(bossOn == true){
@@ -150,7 +181,7 @@ public void draw()
       statistics.addScore(10000*(blob.getVersion()));
       blob.setHp(2000+250*(blob.getVersion()));
       blob.increaseVersion(1);
-      statistics.setattackCd(16);
+      statistics.setattackCd(11);
       bossOn = false;
     }
   }
@@ -259,10 +290,23 @@ public void draw()
   shield.show(ship.getCenterX(),ship.getCenterY());
   shield.checkAsteroidCollision();
   shield.checkBulletCollision();
+  shield.checkAtk2Collision();
   if(shield.getsCount() <= 0){
    shieldOn = false; 
   }
   }
+  //check boss attack two and ship
+  for(int i = 0; i<atk2.size(); i++){
+   BossATK2 checking = atk2.get(i);
+   float collision = dist((float)checking.getCenterX(),(float)checking.getCenterY(),(float)ship.getCenterX(),(float)ship.getCenterY());
+    if(collision < 40){
+     if(annihilationOn == false){
+     statistics.removeHp(30);
+     }
+     atk2.remove(i);
+    }
+  }
+  
   //Asteroid and Bullet collision
   for(int i = 0;i<asteroid.size(); i++){
    Asteroid check = asteroid.get(i); 
@@ -316,6 +360,7 @@ public void draw()
     float bulletB = dist((float)blob.getCenterX(),(float)blob.getCenterY(),(float)check3.getCenterX(),(float)check3.getCenterY());
     if(bulletB < 200){
      blob.removeHp(1);
+     statistics.addScore(1);
      shoot.remove(i);
      if(adrenalineOn == false){
       if(annihilationOn == false){
@@ -345,6 +390,7 @@ public void draw()
    timeOver++;
   }
   
+  
   //Sets duration of overtime
     if(timeOver == 1){
     statistics.removeOver(1);
@@ -360,8 +406,115 @@ public void draw()
     if(statistics.getOver() <= 0){
      textSize(30);
      textAlign(CENTER);
-     fill(255);
-     text("Lmao skill issue",500,400); //temporary
+     rectMode(CENTER);
+     fill(255,255,255,170);
+     rect(400,400,400,400);
+     fill(0);
+     text("Game Over",400,240);
+     textAlign(LEFT);
+     textSize(20);
+     text("Time Played: " + statistics.getshowTime() +" seconds",230,290);
+     text("Your Score: " + statistics.getScore(),230,330);
+     text("Bosses Killed: " + (blob.getVersion()-1),230,370);
+     //ratings based on score/hp/amount of bosses killed 
+     textSize(35);
+     text("Game Rating:", 230,550);
+     if(statistics.getScore() < 1000){
+       textAlign(CENTER);
+       textSize(20);
+       text("Either you ain't even trying or you",400,430);
+       text("have no idea whats going on.", 400, 450);
+       fill(#6C4544);
+       textSize(60);
+       text("F-",530,550);
+     } else if (blob.getVersion() == 1){
+       textAlign(CENTER);
+       textSize(20);
+       text("I know you can do better,",400,430);
+       text("try again!", 400, 450);
+       fill(#29AFFF);
+       textSize(60);
+       text("D+",530,550);
+     } else if (blob.getVersion() == 2 && blob.getHp() > 1125){
+       textAlign(CENTER);
+       textSize(20);
+       text("You killed the first boss though,",400,430);
+       text("a passing grade.", 400, 450);
+       fill(#3DC12D);
+       textSize(60);
+       text("C-",530,550);
+     }  else if (blob.getVersion() == 2 && blob.getHp() <= 1125){
+       textAlign(CENTER);
+       textSize(20);
+       text("You killed the first boss, almost",400,430);
+       text("killed your second one.", 400, 450);
+       fill(#00FF3D);
+       textSize(60);
+       text("C+",530,550);
+     }  else if (blob.getVersion() == 3 && blob.getHp() > 1250){
+       textAlign(CENTER);
+       textSize(20);
+       text("You fought well. Keep going.",400,430);
+       fill(#FFBE5D);
+       textSize(60);
+       text("B",530,550);
+     } else if (blob.getVersion() == 3 && blob.getHp() <= 1250){
+       textAlign(CENTER);
+       textSize(20);
+       text("You fought well, you are improving.",400,430);
+       fill(#FC6100);
+       textSize(60);
+       text("B+",530,550);
+     }  else if (blob.getVersion() == 4 && blob.getHp() > 1375){
+       textAlign(CENTER);
+       textSize(20);
+       text("You are a born boss killer, but",400,430);
+       text("can you push yourself higher?", 400, 450);
+       fill(#CF48F5);
+       textSize(60);
+       text("A",530,550);
+     }  else if (blob.getVersion() == 4 && blob.getHp() <= 1375){
+       textAlign(CENTER);
+       textSize(20);
+       text("You are a born boss killer,",400,430);
+       text("close to a legendary one.",400,450);
+       fill(#FC00E0);
+       textSize(60);
+       text("A+",530,550);
+     }  else if (blob.getVersion() == 5 && blob.getHp() > 1500){
+       textAlign(CENTER);
+       textSize(20);
+       text("What an accomplishment! You navigate",400,430);
+       text("and survive skillfully.", 400, 450);
+       fill(#F7EC93);
+       textSize(60);
+       text("S",530,550);
+     }  else if (blob.getVersion() == 5 && blob.getHp() <= 1500){
+       textAlign(CENTER);
+       textSize(20);
+       text("You are a master at utilizing your",400,430);
+       text("advantages and know how to play.", 400, 450);
+       fill(#EDD832);
+       textSize(60);
+       text("SS",530,550);
+     }  else if (blob.getVersion() == 6){
+       textAlign(CENTER);
+       textSize(20);
+       text("You have become a legend at this game,",400,430);
+       text("almost nobody can reach your skill.",400,450);
+       fill(#FFE30D);
+       textSize(60);
+       text("SSS",530,550);
+     }  else if (blob.getVersion() >= 7){
+       textAlign(CENTER);
+       textSize(20);
+       text("Well done... You... will ",400,430);
+       text("be feared by the game.", 400, 450);
+       fill(#FFE200);
+       textSize(60);
+       text("SSS+",530,550);
+     }
+     rectMode(CORNER);
      noLoop();
     }
     //if overtime and hp falls below 0 for the second time
@@ -369,9 +522,116 @@ public void draw()
      statistics.setHp(0);
      textSize(30);
      textAlign(CENTER);
-     fill(255);
-     text("Lmao skill issue",500,400); //temporary
+     rectMode(CENTER);
+     fill(255,255,255,170);
+     rect(400,400,400,400);
+     fill(0);
+     text("Game Over",400,240);
+     textAlign(LEFT);
+     textSize(20);
+     text("Time Played: " + statistics.getshowTime() +" seconds",230,290);
+     text("Your Score: " + statistics.getScore(),230,330);
+     text("Bosses Killed: " + (blob.getVersion()-1),230,370);
+     //ratings based on score/hp/amount of bosses killed 
+     textSize(35);
+     text("Game Rating:", 230,550);
+     if(statistics.getScore() < 1000){
+       textAlign(CENTER);
+       textSize(20);
+       text("Either you ain't even trying or you",400,430);
+       text("have no idea whats going on.", 400, 450);
+       fill(#6C4544);
+       textSize(60);
+       text("F-",530,550);
+     } else if (blob.getVersion() == 1){
+       textAlign(CENTER);
+       textSize(20);
+       text("I know you can do better,",400,430);
+       text("try again!", 400, 450);
+       fill(#29AFFF);
+       textSize(60);
+       text("D+",530,550);
+     } else if (blob.getVersion() == 2 && blob.getHp() > 1125){
+       textAlign(CENTER);
+       textSize(20);
+       text("You killed the first boss though,",400,430);
+       text("a passing grade.", 400, 450);
+       fill(#3DC12D);
+       textSize(60);
+       text("C-",530,550);
+     }  else if (blob.getVersion() == 2 && blob.getHp() <= 1125){
+       textAlign(CENTER);
+       textSize(20);
+       text("You killed the first boss, almost",400,430);
+       text("killed your second one.", 400, 450);
+       fill(#00FF3D);
+       textSize(60);
+       text("C+",530,550);
+     }  else if (blob.getVersion() == 3 && blob.getHp() > 1250){
+       textAlign(CENTER);
+       textSize(20);
+       text("You fought well. Keep going.",400,430);
+       fill(#FFBE5D);
+       textSize(60);
+       text("B",530,550);
+     } else if (blob.getVersion() == 3 && blob.getHp() <= 1250){
+       textAlign(CENTER);
+       textSize(20);
+       text("You fought well, you are improving.",400,430);
+       fill(#FC6100);
+       textSize(60);
+       text("B+",530,550);
+     }  else if (blob.getVersion() == 4 && blob.getHp() > 1375){
+       textAlign(CENTER);
+       textSize(20);
+       text("You are a born boss killer, but",400,430);
+       text("can you push yourself higher?", 400, 450);
+       fill(#CF48F5);
+       textSize(60);
+       text("A",530,550);
+     }  else if (blob.getVersion() == 4 && blob.getHp() <= 1375){
+       textAlign(CENTER);
+       textSize(20);
+       text("You are a born boss killer,",400,430);
+       text("close to a legendary one.",400,450);
+       fill(#FC00E0);
+       textSize(60);
+       text("A+",530,550);
+     }  else if (blob.getVersion() == 5 && blob.getHp() > 1500){
+       textAlign(CENTER);
+       textSize(20);
+       text("What an accomplishment! You navigate",400,430);
+       text("and survive skillfully.", 400, 450);
+       fill(#F7EC93);
+       textSize(60);
+       text("S",530,550);
+     }  else if (blob.getVersion() == 5 && blob.getHp() <= 1500){
+       textAlign(CENTER);
+       textSize(20);
+       text("You are a master at utilizing your",400,430);
+       text("advantages and know how to play.", 400, 450);
+       fill(#EDD832);
+       textSize(60);
+       text("SS",530,550);
+     }  else if (blob.getVersion() == 6){
+       textAlign(CENTER);
+       textSize(20);
+       text("You have become a legend at this game,",400,430);
+       text("almost nobody can reach your skill.",400,450);
+       fill(#FFE30D);
+       textSize(60);
+       text("SSS",530,550);
+     }  else if (blob.getVersion() >= 7){
+       textAlign(CENTER);
+       textSize(20);
+       text("Well done... You... will ",400,430);
+       text("be feared by the game.", 400, 450);
+       fill(#FFE200);
+       textSize(60);
+       text("SSS+",530,550);
+     }
      endgame = true;
+     rectMode(CORNER);
     }
 }
 
@@ -424,19 +684,15 @@ public void keyPressed(){
       qPress++;
     }
  
-    if(key == 'e'){
-      statistics.shortenBossCountdown(5);
+    if(key == 'p'){
+      statistics.shortenBossCountdown(1);
     }
-    if(key == 'r'){
-        blob.shortenHp(10);
-    }
- 
   }
   
   void mouseClicked(){
-   System.out.print(mouseX); 
-   System.out.print(" , ");
-   System.out.println(mouseY);
+   //System.out.print(mouseX); 
+   //System.out.print(" , ");
+   //System.out.println(mouseY);
   }
   
   
