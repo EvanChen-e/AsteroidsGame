@@ -23,9 +23,9 @@ class Stats{
     showTime = -1;
     score = -1;
     showcount = 0;
-    bossCountdown = 61;
+    bossCountdown = 31;
     bossCountdowncount = 0;
-    attackCd = 16;
+    attackCd = 11;
   }
   
   public void show(){
@@ -191,7 +191,7 @@ class Stats{
      bossCountdowncount = 0; 
     }
     if(bossCountdown == 0){
-      bossCountdown = 90;
+      bossCountdown = 30;
       bossOn = true;
       bossFirst = true;
       attackCdcount = 0;
@@ -260,6 +260,12 @@ class Stats{
   }
   public int getattackCd(){
    return attackCd; 
+  }
+  public int getScore(){
+   return score; 
+  }
+  public int getshowTime(){
+   return showTime; 
   }
   
 }// end
