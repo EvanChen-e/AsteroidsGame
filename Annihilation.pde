@@ -8,9 +8,11 @@ class Annihilation{
   
   public void show(){
    fill(#9B0303);
+   if(barDed >= 150){
+    barDed = 150; 
+   }
    rect(825,575,(int)barDed,30);
     if(barDed >= 150){
-    barDed = 150;
     textAlign(CENTER);
     textSize(20);
     fill(255);
