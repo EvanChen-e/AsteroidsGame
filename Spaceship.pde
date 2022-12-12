@@ -157,6 +157,6 @@ class Spaceship extends Floater
   }
   
   public void setRandomLoseHpAsteroids(){
-   loseHpAsteroids = (int)(Math.random()*7+3);
+   loseHpAsteroids = (int)(Math.random()*5+3);
   }
 }
