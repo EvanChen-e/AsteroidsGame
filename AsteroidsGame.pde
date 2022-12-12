@@ -128,7 +128,7 @@ public void draw()
     timerLong++;
     }
     timerZ++;
-    if(timerZ == 15){
+    if(timerZ == 10){
       timerZ = 0;
     }
     if(timerLong > (20 + 10*blob.getVersion())){ //change number based on version
