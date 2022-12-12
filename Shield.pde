@@ -56,6 +56,17 @@ class Shield{
    }
   }
   
+  public void checkAtk2Collision(){
+    for(int i = 0; i<atk2.size(); i++){
+     BossATK2 checks = atk2.get(i);
+      float collision = dist((float)ship.getCenterX(),(float)ship.getCenterY(),(float)checks.getCenterX(),(float)checks.getCenterY());
+      if(collision < 100){
+       removesCount(5);
+       atk2.remove(i);
+      }
+    }
+  }
+  
   public void randomSpawn(){
     int random = (int)(Math.random()*increaseChance);
     if(random == randomSpawning && increaseChance <= 900){
